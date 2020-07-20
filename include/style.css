@@ -131,20 +131,6 @@
     z-index: 199;
 }
 
-.cbds-tooltip--listview .slds-popover {
-	position: absolute;
-	top: -50%;
-	right: 0;
-	transform: translateY(-100%);
-	opacity: 0;
-	text-align: left;
-	transition: opacity 100ms linear;
-}
-
-.cbds-tooltip-parent:hover .slds-popover {
-	opacity: 1;
-}
-
 .cbds-massedit {
 	position: absolute;
 	opacity: 0;
@@ -186,6 +172,20 @@
   -webkit-transform: translateY(-3.125rem);
   -moz-transform: translateY(-3.125rem);
   transform: translateY(-3.125rem);
+}
+
+/* ---- CBDS tooltip ---- */
+.tui-grid-cell .cbds-tooltip__wrapper {
+  display: none;
+}
+
+.tui-grid-cell:hover .cbds-tooltip__wrapper {
+  display: block;
+}
+
+#ttmodcomments .dataField,
+#ttmodcomments .dataLabel {
+  white-space: normal;
 }
 
 /* ---- CBDS animations ---- */
