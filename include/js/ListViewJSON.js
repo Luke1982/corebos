@@ -661,9 +661,8 @@ const ListView = {
 	addTooltip: (recordid, fieldname, modulename) => {
 		const tooltipUrl = `index.php?module=Tooltip&action=TooltipAjax&file=ComputeTooltip&fieldname=${fieldname}&id=${recordid}&modname=${modulename}&ajax=true&submode=getTooltip`;
 		let getId = document.getElementById(`tooltip-${recordid}-${fieldname}`);
-		if (getId != null) {
-			document.getElementById(`tooltip-${recordid}-${fieldname}`).style.display = 'block';
-		} else {
+		if (!ListView.isTooltipLoaded(recordid)) {
+			ListView.loadedTooltips.push(recordid)
 			fetch(
 				tooltipUrl+'&returnarray=true',
 				{
@@ -689,7 +688,7 @@ const ListView = {
 									<strong>${label}:</strong>
 								</dt>
 								<dd class="slds-item_detail slds-truncate">${response[label]}</dd>
-							</dl>				
+							</dl>
 						`;
 					}
 				}
@@ -697,13 +696,7 @@ const ListView = {
 				const parent = getEl.parentNode;
 				const el = `
 					<div style="padding-left:2rem;padding-top:5rem;position:absolute;color: black !important">
-					    <section class="slds-popover" onmouseleave="ListView.removeTooltip('${recordid}', '${fieldname}')" role="dialog" style="position:absolute;top:10px;left: 0px;${width};">
-					      <button onclick="ListView.removeTooltip(${recordid}, '${fieldname}', true)" class="slds-button slds-button_icon slds-button_icon-small slds-float_right slds-popover__close slds-button_icon-inverse">
-					        <svg class="slds-button__icon" aria-hidden="true">
-					          <use xlink:href="include/LD/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
-					        </svg>
-					        <span class="slds-assistive-text">Close dialog</span>
-					      </button>
+					    <section class="slds-popover" role="dialog" style="position:absolute;top:10px;left: 0px;${width};">
 					      <header class="slds-popover__header" style="background: #0590fb;color: white">
 					        <div class="slds-media slds-media_center slds-has-flexi-truncate">
 					          <div class="slds-media__figure">
@@ -726,28 +719,21 @@ const ListView = {
 				`;
 				const createEl = document.createElement('div');
 				createEl.id = `tooltip-${recordid}-${fieldname}`;
+				createEl.classList.add('cbds-tooltip__wrapper');
 				createEl.innerHTML = el;
 				parent.appendChild(createEl);
 			});
 		}
 	},
 	/**
-	 * Remove tooltip in Listview
+	 * See if certain recordid already has a loaded tooltip
 	 * @param {String} recordid
-	 * @param {String} fieldname
 	 */
-	removeTooltip: (recordid, fieldname, state = false) => {
-		const el = `tooltip-${recordid}-${fieldname}`;
-		if (state) {
-			document.getElementById(`tooltip-${recordid}-${fieldname}`).remove();
-		} else {
-			if (document.getElementById(`tooltip-${recordid}-${fieldname}`)) {
-				document.getElementById(`tooltip-${recordid}-${fieldname}`).style.display = 'none';
-			} else {
-				setTimeout(function () {
-					document.getElementById(`tooltip-${recordid}-${fieldname}`).style.display = 'none';
-				}, 1000);
-			}
-		}
+	isTooltipLoaded: (recordid) => {
+		return ListView.loadedTooltips.indexOf(recordid) == -1 ? false : true;
 	},
+	/**
+	 * Keep track of already loaded tooltips
+	 */
+	loadedTooltips: []
 };
