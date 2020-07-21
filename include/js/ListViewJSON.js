@@ -683,7 +683,7 @@ const ListView = {
 						width = 'width:700px';
 					} else {
 						body += `
-							<dl class="slds-list_horizontal">
+							<dl class="slds-list_horizontal slds-p-bottom_x-small">
 								<dt class="slds-item_label slds-text-color_weak slds-truncate">
 									<strong>${label}:</strong>
 								</dt>
@@ -692,12 +692,10 @@ const ListView = {
 						`;
 					}
 				}
-				const getEl = document.getElementById(`tooltip-el-${recordid}-${fieldname}`);
-				const parent = getEl.parentNode;
 				const el = `
-					<div style="padding-left:2rem;padding-top:5rem;position:absolute;color: black !important">
-					    <section class="slds-popover" role="dialog" style="position:absolute;top:10px;left: 0px;${width};">
-					      <header class="slds-popover__header" style="background: #0590fb;color: white">
+					<div class="cbds-tooltip__wrapper--inner">
+					    <section class="slds-popover slds-nubbin_bottom" role="dialog" style="${width};">
+					      <header class="slds-popover__header" style="background: #1589ee; color: white">
 					        <div class="slds-media slds-media_center slds-has-flexi-truncate">
 					          <div class="slds-media__figure">
 					            <span class="slds-icon_container slds-icon-utility-error">
@@ -721,7 +719,7 @@ const ListView = {
 				createEl.id = `tooltip-${recordid}-${fieldname}`;
 				createEl.classList.add('cbds-tooltip__wrapper');
 				createEl.innerHTML = el;
-				parent.appendChild(createEl);
+				document.getElementById(`cbds-tooltip__trigger-${recordid}`).appendChild(createEl);
 			});
 		}
 	},
