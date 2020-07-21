@@ -64,7 +64,8 @@ class LinkRender {
 		if (tooltip) {
 			props.formattedValue = `
 			<span>${props.value}</span>
-			<span class="slds-icon_container slds-icon__svg--default slds-float_right slds-m-right_small"
+			<span class="slds-icon_container slds-icon__svg--default slds-float_right slds-m-right_small cbds-tooltip__trigger"
+				  id="cbds-tooltip__trigger-${recordid}"
 				  onmouseover="ListView.addTooltip('${recordid}', '${columnName}', '${relatedRows[columnName] != undefined ? moduleName : module}')"
 				  onclick="(function(e){e.stopPropagation(); e.preventDefault()})(event)">
 				<svg class="slds-icon slds-icon-text-default slds-icon_x-small" aria-hidden="true">
